@@ -9,12 +9,22 @@ export class UserDTO {
     @IsNotEmpty()
     password: string;
 
+    @IsNotEmpty()
+    country: string;
+
+    @IsNotEmpty()
+    contact: string;
+
+    @IsNotEmpty()
+    email: string;
+
 }
 
 export class UserRO {
     id: string;
-    usernae: string;
-    created: Date;
-    modifyOn: Date;
+    username: string;
+    country: string;
+    contact: string;
+    email: string;
     token?: string;
 }

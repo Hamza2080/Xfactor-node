@@ -10,9 +10,10 @@ export class AuthGuard implements CanActivate {
         return false;
     }
 
-    request.user = this.validateRequest(request.headers.authorization);
-
-    return true;
+    request.user = await this.validateRequest(request.headers.authorization);
+    if (request.user) {
+        return true;
+    }
   }
 
 

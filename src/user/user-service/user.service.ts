@@ -2,7 +2,7 @@ import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../user.entity';
 import { Repository } from 'typeorm/repository/Repository';
-import { UserDTO } from '../user.dto';
+import { UserDTO, UserRO } from '../user.dto';
 import { ObjectID } from 'mongodb';
 
 @Injectable()
@@ -13,12 +13,12 @@ export class UserService {
         private userRepository: Repository<UserEntity>,
     ){}
 
-    async findById(id: string) {
+    async findById(id: string): Promise<UserRO> {
         const user = await this.userRepository.findOne({where: {_id: new ObjectID(id)}});
         return user.toResposponseObject(false);
     }
 
-    async login(data: UserDTO) {
+    async login(data: UserDTO): Promise<UserRO> {
         const { username, password } = data;
         const user = await this.userRepository.findOne({where : { username }});
         if (!user || !(await user.comparePassword(password))) {
@@ -30,7 +30,7 @@ export class UserService {
         return user.toResposponseObject();
     }
 
-    async register(data: UserDTO) {
+    async register(data: UserDTO): Promise<UserRO> {
         const { username } = data;
         let user = await this.userRepository.findOne({where: {username}});
         if (user) {
